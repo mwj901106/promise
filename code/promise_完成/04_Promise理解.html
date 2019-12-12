@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>04_Promise理解</title>
+</head>
+<body>
+  <!-- 
+  Promise是什么?
+  1.抽象表达: 
+      1) Promise是一门新的技术(ES6规范)
+      2) Promise是JS中进行异步编程的新解决方案(旧的是谁?)
+  2.具体表达:
+      1) 从语法上来说: Promise是一个构造函数
+      2) 从功能上来说: promise对象用来封装一个异步操作并可以获取其成功/失败的结果值
+  -->
+
+  <!-- 
+    总结: 一个promise对象就代表这一个异步操作, 通过它可以得到最终成功或失败的结果值
+  -->
+
+  <!-- 1. 封装定时器异步操作 -->
+  <!-- 
+  <script>
+    var promise1 = new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        resolve('foo');
+      }, 300);
+    });
+
+    promise1.then(function(value) {
+      console.log(value);
+    });
+
+    console.log(promise1);
+  </script> 
+  -->
+
+  <!-- 2. 封装ajax请求异步操作 -->
+  <script>
+    function myAsyncFunction(url) {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.onload = () => resolve(JSON.parse(xhr.responseText));
+        xhr.onerror = () => reject(xhr.statusText);
+        xhr.send();
+      });
+    };
+
+    // myAsyncFunction('https://api.apiopen.top/getJoke?page=1&count=2&type=video')
+    myAsyncFunction('https://api.apiopen.top2/getJoke?page=1&count=2&type=video')
+    .then(
+      result => {
+        console.log('请求成功', result)
+      },
+      errorMsg => {
+        console.log('请求失败', errorMsg)
+      }
+    )
+  </script>
+</body>
+</html>
